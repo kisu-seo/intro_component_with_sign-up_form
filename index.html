@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
+
+  <title>Intro component with sign up form</title>
+
+  <!-- Google Fonts: Poppins 폰트 불러오기 (weights: 400, 500, 600, 700) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* 전체 페이지 기본 설정 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      /* 박스 크기 계산을 쉽게 하기 위한 설정 */
+    }
+
+    body {
+      /* 폰트 패밀리: Poppins 적용 (Google Fonts에서 불러옴) */
+      font-family: 'Poppins', sans-serif;
+      /* Poppins 폰트, 없으면 기본 sans-serif */
+
+      /* 배경색: 빨간색 계열 (Red 400) - 이미지 로딩 전이나 실패 시 보이는 색 */
+      background-color: hsl(0, 100%, 74%);
+
+      /* 모바일 배경 이미지 먼저 설정 (모바일 우선 접근) */
+      background-image: url('images/bg-intro-mobile.png');
+
+      /* 배경 이미지를 화면에 꽉 채우기 */
+      background-size: cover;
+      /* 이미지를 화면 전체에 맞춤 (잘리더라도 꽉 채움) */
+      background-position: center;
+      /* 이미지를 중앙에 배치 */
+      background-repeat: no-repeat;
+      /* 이미지 반복 안 함 */
+
+      /* 최소 높이를 화면 전체 높이로 설정 */
+      min-height: 100vh;
+      /* 100vh = 화면 세로 길이의 100% */
+    }
+
+    /* 데스크탑 화면 (1024px 이상)에서는 데스크탑 배경 이미지 사용 */
+    @media (min-width: 1024px) {
+      body {
+        /* 큰 화면에서는 데스크탑 배경 이미지로 교체 */
+        background-image: url('images/bg-intro-desktop.png');
+      }
+    }
+
+    /* 메인 컨테이너: 모든 콘텐츠를 담는 박스 */
+    .container {
+      /* 너비 설정 */
+      width: 100%;
+      /* 모바일에서는 화면 전체 너비 사용 */
+      max-width: 1113px;
+      /* 데스크탑에서 최대 1113px까지만 확장 */
+
+      /* 중앙 정렬: 좌우 margin을 auto로 설정하면 자동으로 중앙에 배치됨 */
+      margin: 0 auto;
+      /* 위아래 0, 좌우 auto */
+
+      /* 내부 여백: 콘텐츠가 화면 끝에 바짝 붙지 않게 */
+      padding: 24px;
+      /* spacing-300 (24px) */
+
+      /* 최소 높이: 화면 전체 높이 사용 */
+      min-height: 100vh;
+
+      /* Flexbox 설정: 내부 요소를 정렬하기 위한 설정 */
+      display: flex;
+      /* 플렉스박스 활성화 - 내부 요소를 유연하게 배치 */
+      align-items: center;
+      /* 세로축(수직) 중앙 정렬 - 내부 요소를 상하 중앙에 배치 */
+      flex-wrap: wrap;
+      /* 화면이 작으면 요소들이 다음 줄로 넘어감 */
+    }
+
+    /* 데스크탑 화면에서 컨테이너 여백 조정 */
+    @media (min-width: 1024px) {
+      .container {
+        /* 데스크탑에서는 상하 121px 여백만 추가, 좌우는 0 */
+        padding: 121px 0;
+        /* 상하 121px, 좌우 0px */
+      }
+    }
+
+    /* 왼쪽 섹션: 소개 텍스트 영역 */
+    .left-section {
+      /* 모바일에서는 전체 너비 사용 */
+      width: 100%;
+    }
+
+    /* 데스크탑 화면에서 왼쪽 섹션 스타일 */
+    @media (min-width: 1024px) {
+      .left-section {
+        /* 데스크탑에서 고정 너비 525px */
+        width: 525px;
+      }
+    }
+
+    /* 왼쪽 섹션 제목 스타일 (Text Preset 1) */
+    .left-section h1 {
+      /* 크기 설정 */
+      width: 525px;
+      /* 가로 크기: 525px */
+      height: 131px;
+      /* 세로 크기: 131px */
+
+      /* Text Preset 1: 메인 헤드라인용 큰 제목 */
+      font-size: 50px;
+      /* 크기: 50px */
+      line-height: 110%;
+      /* 줄 간격: 110% (줄이 조밀하게 붙음) */
+      letter-spacing: -0.5px;
+      /* 자간: -0.5px (글자 사이가 살짝 좁아짐) */
+      font-weight: 700;
+      /* 굵기: Bold (700) */
+
+      /* 색상: 흰색 */
+      color: #FFFFFF;
+      /* White */
+
+      /* 텍스트 정렬: 왼쪽 정렬 */
+      text-align: left;
+      /* 텍스트를 왼쪽으로 정렬 */
+
+      /* h1과 p 사이 여백: spacing-200 (16px) */
+      margin-bottom: 16px;
+      /* 아래쪽 여백 16px */
+    }
+
+    /* 왼쪽 섹션 본문 스타일 (Text Preset 3) */
+    @media (min-width: 1024px) {
+      .left-section p {
+        /* Text Preset 3: 본문 텍스트용 스타일 */
+        font-size: 16px;
+        /* 크기: 16px */
+        line-height: 165%;
+        /* 줄 간격: 165% (읽기 편한 넓은 간격) */
+        letter-spacing: 0px;
+        /* 자간: 0px (기본 간격) */
+        font-weight: 500;
+        /* 굵기: Medium (500) */
+
+        /* 색상: 흰색 */
+        color: #FFFFFF;
+        /* White */
+      }
+    }
+
+    /* 오른쪽 섹션: 폼 영역 */
+    .right-section {
+      /* 모바일에서는 전체 너비 사용 */
+      width: 100%;
+    }
+
+    /* 데스크탑 화면에서 오른쪽 섹션 스타일 */
+    @media (min-width: 1024px) {
+      .right-section {
+        /* 데스크탑에서 고정 너비 540px */
+        width: 540px;
+
+        /* 우측 정렬: 왼쪽 여백을 자동으로 최대화하여 우측 끝으로 밀기 */
+        margin-left: auto;
+        /* flexbox에서 우측 끝 정렬 */
+      }
+    }
+
+    /* 프로모션 배너 스타일 */
+    .promo-banner {
+      /* 크기 설정 */
+      width: 540px;
+      /* 가로 크기: 540px */
+      height: 60px;
+      /* 세로 크기: 60px */
+
+      /* 배경색: Purple 700 */
+      background-color: #5E54A4;
+      /* Purple 700: hsl(248, 32%, 49%) */
+
+      /* 텍스트 색상: 흰색 */
+      color: #FFFFFF;
+      /* White */
+
+      /* 모서리 반경: 둥근 모서리 */
+      border-radius: 10px;
+      /* 모서리를 10px 반경으로 둥글게 */
+
+      /* 그림자 효과: y축 8px 오프셋 (블러 없음) */
+      box-shadow: 0 8px 0 rgba(0, 0, 0, 0.15);
+      /* x:0, y:8px, blur:0 (선명한 그림자), 투명도:15% */
+
+      /* 텍스트 정렬 */
+      text-align: center;
+      /* 가운데 정렬 */
+
+      /* 텍스트 세로 정렬을 위한 flex 설정 */
+      display: flex;
+      /* flexbox 활성화 */
+      align-items: center;
+      /* 세로 중앙 정렬 */
+      justify-content: center;
+      /* 가로 중앙 정렬 */
+    }
+
+    /* 프로모션 배너 내부 p 태그 스타일 */
+    .promo-banner p {
+      margin: 0;
+      /* 기본 여백 제거 */
+    }
+
+    .attribution {
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .attribution a {
+      color: hsl(228, 45%, 44%);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 메인 컨테이너: 1113px 최대 너비, 중앙 정렬 -->
+  <div class="container">
+
+    <!-- 왼쪽 섹션: 소개 텍스트 -->
+    <div class="left-section">
+      <h1>Learn to code by watching others</h1>
+
+      <p>See how experienced developers solve problems in real-time. Watching scripted tutorials is great,
+        but understanding how developers think is invaluable.</p>
+    </div>
+
+    <!-- 오른쪽 섹션: 폼 영역 -->
+    <div class="right-section">
+
+      <!-- 프로모션 배너 -->
+      <div class="promo-banner">
+        <p><strong>Try it free 7 days</strong> then $20/mo. thereafter</p>
+      </div>
+
+      <!-- 회원가입 폼 -->
+      <form class="signup-form">
+        <!-- 이름 입력 -->
+        <input type="text" placeholder="First Name" required>
+
+        <!-- 성 입력 -->
+        <input type="text" placeholder="Last Name" required>
+
+        <!-- 이메일 입력 -->
+        <input type="email" placeholder="Email Address" required>
+
+        <!-- 비밀번호 입력 -->
+        <input type="password" placeholder="Password" required>
+
+        <!-- 제출 버튼 -->
+        <button type="submit">Claim your free trial</button>
+
+        <!-- 약관 동의 텍스트 -->
+        <p class="terms">By clicking the button, you are agreeing to our <a href="#">Terms and Services</a></p>
+      </form>
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>
