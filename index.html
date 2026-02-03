@@ -6,12 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Intro component with sign up form</title>
 
-  <!-- Google Fonts: Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN (설정으로 Poppins 폰트 적용) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -22,81 +20,146 @@
       }
     }
   </script>
+
+  <!-- ========== Tailwind 커스텀 컴포넌트 (Components) ========== -->
+  <style type="text/tailwindcss">
+    @layer components {
+      /* [의도] 전체 화면 배경 + 1024px 이상에서 데스크톱 배경 이미지로 전환 */
+      .page-body {
+        @apply min-h-screen font-sans box-border;
+        @apply bg-[hsl(0,100%,74%)] bg-cover bg-center bg-no-repeat;
+        @apply bg-[url('images/bg-intro-mobile.png')] min-[1024px]:bg-[url('images/bg-intro-desktop.png')];
+      }
+
+      /* [의도] 콘텐츠 전체를 담는 래퍼: 모바일 패딩 → 태블릿 세로 배치·중앙 정렬 → 데스크톱 상하 여백만 */
+      /* [주의] max-w-[1113px], py-[121px] 등은 디자인 시안 고정값 */
+      .main-container {
+        @apply w-full max-w-[1113px] min-h-screen mx-auto box-border;
+        @apply flex flex-wrap items-center p-6;
+        @apply min-[768px]:max-[1065px]:flex-col min-[768px]:max-[1065px]:items-center min-[768px]:max-[1065px]:justify-center;
+        @apply min-[1066px]:py-[121px] min-[1066px]:px-0;
+      }
+
+      /* [의도] 왼쪽 소개 블록: 태블릿에서 max 525px·중앙, 데스크톱에서 525px 고정 */
+      /* [주의] 525px 는 디자인 시안 고정값 */
+      .intro-section {
+        @apply w-full max-[767px]:text-center;
+        @apply min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[525px] min-[768px]:max-[1065px]:min-w-0 min-[768px]:max-[1065px]:text-center min-[768px]:max-[1065px]:mb-16;
+        @apply min-[1066px]:w-[525px];
+      }
+
+      /* [의도] 데스크톱: 큰 제목(50px) / 모바일: 작은 제목(28px) + 중앙 정렬 / 태블릿: 중앙 정렬 유지 */
+      /* [주의] w-[525px], h-[131px], text-[50px] 등 디자인 시안 고정값 */
+      .intro-title {
+        @apply w-[525px] h-[131px] text-[50px] leading-[110%] tracking-[-0.5px] font-bold text-white text-left mb-4;
+        @apply max-[767px]:w-full max-[767px]:h-auto max-[767px]:text-[28px] max-[767px]:leading-[130%] max-[767px]:tracking-[-0.3px] max-[767px]:text-center;
+        @apply min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[525px] min-[768px]:max-[1065px]:h-auto min-[768px]:max-[1065px]:text-center min-[768px]:max-[1065px]:mx-auto;
+      }
+
+      .intro-text {
+        @apply text-[16px] leading-[165%] tracking-[0px] font-medium text-white;
+      }
+
+      /* [의도] 오른쪽 폼 블록: 태블릿 max 540px·세로 정렬, 데스크톱 540px 고정·우측 정렬 */
+      /* [주의] 540px 는 디자인 시안 고정값 */
+      .signup-section {
+        @apply w-full;
+        @apply max-[767px]:min-w-0 max-[767px]:box-border;
+        @apply min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[540px] min-[768px]:max-[1065px]:min-w-0 min-[768px]:max-[1065px]:box-border min-[768px]:max-[1065px]:flex min-[768px]:max-[1065px]:flex-col min-[768px]:max-[1065px]:items-center;
+        @apply min-[1066px]:w-[540px] min-[1066px]:ml-auto;
+      }
+
+      /* [의도] 보라색 CTA 배너: 데스크 540×60 / 모바일 100% 너비·88px 높이·좌우 66.5px 패딩 */
+      /* [주의] w-[540px], h-[60px], px-[66.5px], py-[18px], h-[88px] 디자인 시안 고정값 */
+      .promo-banner {
+        @apply w-[540px] h-[60px] bg-[#5E54A4] text-white rounded-[10px] mb-6 flex items-center justify-center text-center;
+        @apply shadow-[0_8px_0_rgba(0,0,0,0.15)];
+        @apply min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:min-w-0 min-[768px]:max-[1065px]:max-w-full min-[768px]:max-[1065px]:box-border;
+        @apply max-[767px]:w-full max-[767px]:min-w-0 max-[767px]:box-border max-[767px]:px-[66.5px] max-[767px]:py-[18px] max-[767px]:h-[88px];
+      }
+
+      /* [의도] 흰색 폼 카드: 데스크 패딩 32/40 → 모바일 24 통일, 태블릿 너비 100%·중앙 */
+      .signup-form {
+        @apply bg-white rounded-[10px] py-8 px-10 flex flex-col gap-6 box-border;
+        @apply shadow-[0_8px_0_rgba(0,0,0,0.1)];
+        @apply max-[767px]:w-full max-[767px]:min-w-0 max-[767px]:p-6;
+        @apply min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:min-w-0 min-[768px]:max-[1065px]:max-w-full min-[768px]:max-[1065px]:mx-auto;
+      }
+
+      /* [의도] 입력 필드: 데스크 460×56, 포커스 시 보라 테두리, 반응형에서 100% 또는 max 460px */
+      /* [주의] w-[460px], h-[56px], 색상값 디자인 시안 고정값 */
+      .input-field {
+        @apply w-[460px] max-w-full h-[56px] box-border rounded-lg py-4 px-8 font-sans text-[15px] font-normal tracking-[0.25px];
+        @apply border border-[#DEDEDE] text-[#3D3B48] placeholder:text-[#BAB7D4];
+        @apply focus:outline-none focus:border-2 focus:border-[#5E54A4];
+        @apply max-[767px]:w-full;
+        @apply min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[460px];
+      }
+
+      /* [의도] 초록 CTA 버튼 + 내부 그림자, hover 시 밝은 초록, 반응형 너비는 input과 동일 */
+      /* [주의] w-[460px], h-[56px], 색상·그림자 디자인 시안 고정값 */
+      .btn-primary {
+        @apply w-[460px] max-w-full h-[56px] rounded-lg border-0 font-sans text-[15px] leading-[175%] font-semibold tracking-[2px] uppercase cursor-pointer box-border;
+        @apply bg-[#38CC8B] text-white shadow-[inset_0_-4px_0_rgba(0,0,0,0.0909)];
+        @apply hover:bg-[#77E2B3];
+        @apply max-[767px]:w-full;
+        @apply min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[460px];
+      }
+
+      /* [의도] 제출 버튼과 약관 사이 간격 보정(-16px) + 작은 회색 텍스트 */
+      .form-terms {
+        @apply m-0 mt-[-16px] text-center text-[11px] leading-[190%] font-medium text-[#BAB7D4];
+      }
+
+      .form-terms-link {
+        @apply text-[#FF7979] no-underline font-semibold border-b border-[#FF7979] hover:underline;
+      }
+    }
+  </style>
+  <!-- ========== Components 끝 ========== -->
 </head>
 
-<body
-  class="min-h-screen font-sans bg-[hsl(0,100%,74%)] bg-[url('images/bg-intro-mobile.png')] min-[1024px]:bg-[url('images/bg-intro-desktop.png')] bg-cover bg-center bg-no-repeat box-border">
+<body class="page-body">
 
-  <main class="w-full max-w-[1113px] min-h-screen mx-auto box-border
-           flex flex-wrap items-center
-           p-6
-           min-[768px]:max-[1065px]:flex-col min-[768px]:max-[1065px]:items-center min-[768px]:max-[1065px]:justify-center
-           min-[1066px]:py-[121px] min-[1066px]:px-0">
+  <!-- ========== 메인 컨테이너 (전체 콘텐츠 래퍼) 시작 ========== -->
+  <main class="main-container">
 
-    <!-- 소개 영역 (왼쪽) -->
-    <section aria-label="Introduction" class="w-full
-             min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[525px] min-[768px]:max-[1065px]:min-w-0 min-[768px]:max-[1065px]:text-center min-[768px]:max-[1065px]:mb-16
-             min-[1066px]:w-[525px]
-             max-[767px]:text-center">
-      <h1
-        class="w-[525px] h-[131px] text-[50px] leading-[110%] tracking-[-0.5px] font-bold text-white text-left mb-4
-               max-[767px]:w-full max-[767px]:h-auto max-[767px]:text-[28px] max-[767px]:leading-[130%] max-[767px]:tracking-[-0.3px] max-[767px]:text-center
-               min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[525px] min-[768px]:max-[1065px]:h-auto min-[768px]:max-[1065px]:text-center min-[768px]:max-[1065px]:mx-auto">
-        Learn to code by watching others
-      </h1>
-      <p class="text-[16px] leading-[165%] tracking-[0px] font-medium text-white">
+    <!-- ----- 소개 영역 (왼쪽) 시작 ----- -->
+    <section aria-label="Introduction" class="intro-section">
+      <h1 class="intro-title">Learn to code by watching others</h1>
+      <p class="intro-text">
         See how experienced developers solve problems in real-time.
         Watching scripted tutorials is great, but understanding how developers think is invaluable.
       </p>
     </section>
+    <!-- ----- 소개 영역 끝 ----- -->
 
-    <!-- 폼 영역 (오른쪽) -->
-    <section aria-label="Sign up" class="w-full
-             max-[767px]:min-w-0 max-[767px]:box-border
-             min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[540px] min-[768px]:max-[1065px]:min-w-0 min-[768px]:max-[1065px]:box-border min-[768px]:max-[1065px]:flex min-[768px]:max-[1065px]:flex-col min-[768px]:max-[1065px]:items-center
-             min-[1066px]:w-[540px] min-[1066px]:ml-auto">
+    <!-- ----- 폼 영역 (오른쪽) 시작 ----- -->
+    <section aria-label="Sign up" class="signup-section">
 
-      <!-- 프로모션 배너 -->
-      <aside aria-label="Promotion"
-        class="w-[540px] h-[60px] bg-[#5E54A4] text-white rounded-[10px] shadow-[0_8px_0_rgba(0,0,0,0.15)] mb-6 flex items-center justify-center text-center
-               min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:min-w-0 min-[768px]:max-[1065px]:max-w-full min-[768px]:max-[1065px]:box-border
-               max-[767px]:w-full max-[767px]:min-w-0 max-[767px]:box-border max-[767px]:px-[66.5px] max-[767px]:py-[18px] max-[767px]:h-[88px]">
+      <!-- 프로모션 배너 (Try it free 7 days...) -->
+      <aside aria-label="Promotion" class="promo-banner">
         <p class="m-0"><strong>Try it free 7 days</strong> then $20/mo. thereafter</p>
       </aside>
 
-      <!-- 회원가입 폼 -->
-      <form
-        class="bg-white rounded-[10px] py-8 px-10 flex flex-col gap-6 shadow-[0_8px_0_rgba(0,0,0,0.1)] box-border
-               max-[767px]:w-full max-[767px]:min-w-0 max-[767px]:p-6
-               min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:min-w-0 min-[768px]:max-[1065px]:max-w-full min-[768px]:max-[1065px]:mx-auto"
-        action="#" method="post">
-        <input type="text" placeholder="First Name" required aria-label="First Name" class="w-[460px] max-w-full h-[56px] box-border border border-[#DEDEDE] rounded-lg py-4 px-8 font-sans text-[15px] font-normal tracking-[0.25px] text-[#3D3B48] placeholder:text-[#BAB7D4] focus:outline-none focus:border-2 focus:border-[#5E54A4]
-                 max-[767px]:w-full
-                 min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[460px]">
-        <input type="text" placeholder="Last Name" required aria-label="Last Name" class="w-[460px] max-w-full h-[56px] box-border border border-[#DEDEDE] rounded-lg py-4 px-8 font-sans text-[15px] font-normal tracking-[0.25px] text-[#3D3B48] placeholder:text-[#BAB7D4] focus:outline-none focus:border-2 focus:border-[#5E54A4]
-                 max-[767px]:w-full
-                 min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[460px]">
-        <input type="email" placeholder="Email Address" required aria-label="Email Address" class="w-[460px] max-w-full h-[56px] box-border border border-[#DEDEDE] rounded-lg py-4 px-8 font-sans text-[15px] font-normal tracking-[0.25px] text-[#3D3B48] placeholder:text-[#BAB7D4] focus:outline-none focus:border-2 focus:border-[#5E54A4]
-                 max-[767px]:w-full
-                 min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[460px]">
-        <input type="password" placeholder="Password" required aria-label="Password" class="w-[460px] max-w-full h-[56px] box-border border border-[#DEDEDE] rounded-lg py-4 px-8 font-sans text-[15px] font-normal tracking-[0.25px] text-[#3D3B48] placeholder:text-[#BAB7D4] focus:outline-none focus:border-2 focus:border-[#5E54A4]
-                 max-[767px]:w-full
-                 min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[460px]">
-        <button type="submit" class="w-[460px] max-w-full h-[56px] bg-[#38CC8B] text-white rounded-lg border-0 shadow-[inset_0_-4px_0_rgba(0,0,0,0.0909)] font-sans text-[15px] leading-[175%] font-semibold tracking-[2px] uppercase cursor-pointer hover:bg-[#77E2B3] box-border
-                 max-[767px]:w-full
-                 min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[460px]">
-          Claim your free trial
-        </button>
-        <p class="m-0 mt-[-16px] text-center text-[11px] leading-[190%] font-medium text-[#BAB7D4]">
+      <!-- 회원가입 폼 카드 -->
+      <form class="signup-form" action="#" method="post">
+        <input type="text" placeholder="First Name" required aria-label="First Name" class="input-field">
+        <input type="text" placeholder="Last Name" required aria-label="Last Name" class="input-field">
+        <input type="email" placeholder="Email Address" required aria-label="Email Address" class="input-field">
+        <input type="password" placeholder="Password" required aria-label="Password" class="input-field">
+        <button type="submit" class="btn-primary">Claim your free trial</button>
+        <p class="form-terms">
           By clicking the button, you are agreeing to our
-          <a href="#" class="text-[#FF7979] no-underline font-semibold border-b border-[#FF7979] hover:underline">Terms
-            and Services</a>
+          <a href="#" class="form-terms-link">Terms and Services</a>
         </p>
       </form>
 
     </section>
+    <!-- ----- 폼 영역 끝 ----- -->
 
   </main>
+  <!-- ========== 메인 컨테이너 끝 ========== -->
 
 </body>
 
