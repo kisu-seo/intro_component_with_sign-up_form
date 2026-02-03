@@ -8,6 +8,12 @@ The designs were created to the following widths:
 - Tablet: 768px
 - Desktop: 1440px
 
+### Background by breakpoint
+
+- **Mobile** (0 ~ 767px): `images/bg-intro-mobile.png`
+- **Tablet** (768px ~ 1023px): `images/bg-intro-mobile.png`
+- **Desktop** (1024px 이상): `images/bg-intro-desktop.png`
+
 > 💡 These are just the design sizes. Ensure content is responsive and meets WCAG requirements by testing the full range of screen sizes from 320px to large screens.
 
 ## Colors

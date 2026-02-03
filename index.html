@@ -46,6 +46,13 @@
       /* 100vh = 화면 세로 길이의 100% */
     }
 
+    /* 태블릿 화면 (768px ~ 1023px)에서는 모바일 배경 패턴 사용 */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      body {
+        background-image: url('images/bg-intro-mobile.png');
+      }
+    }
+
     /* 데스크탑 화면 (1024px 이상)에서는 데스크탑 배경 이미지 사용 */
     @media (min-width: 1024px) {
       body {
@@ -82,6 +89,16 @@
       /* 화면이 작으면 요소들이 다음 줄로 넘어감 */
     }
 
+    /* 태블릿 화면 (768px ~ 1023px)에서 전체 화면 중앙 정렬 */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .container {
+        /* flex 줄(wrap)을 세로 중앙에 배치 */
+        align-content: center;
+        /* flex 아이템을 가로 중앙에 배치 */
+        justify-content: center;
+      }
+    }
+
     /* 데스크탑 화면에서 컨테이너 여백 조정 */
     @media (min-width: 1024px) {
       .container {
@@ -95,6 +112,16 @@
     .left-section {
       /* 모바일에서는 전체 너비 사용 */
       width: 100%;
+    }
+
+    /* 태블릿 화면 (768px ~ 1023px)에서 왼쪽 섹션 중앙 정렬 */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .left-section {
+        max-width: 525px;
+        text-align: center;
+        /* left-section(p 포함)과 프로모션 배너 사이 여백: spacing-800 (64px) */
+        margin-bottom: 64px;
+      }
     }
 
     /* 데스크탑 화면에서 왼쪽 섹션 스타일 */
@@ -136,29 +163,58 @@
       /* 아래쪽 여백 16px */
     }
 
-    /* 왼쪽 섹션 본문 스타일 (Text Preset 3) */
-    @media (min-width: 1024px) {
-      .left-section p {
-        /* Text Preset 3: 본문 텍스트용 스타일 */
-        font-size: 16px;
-        /* 크기: 16px */
-        line-height: 165%;
-        /* 줄 간격: 165% (읽기 편한 넓은 간격) */
-        letter-spacing: 0px;
-        /* 자간: 0px (기본 간격) */
-        font-weight: 500;
-        /* 굵기: Medium (500) */
-
-        /* 색상: 흰색 */
-        color: #FFFFFF;
-        /* White */
+    /* 태블릿(768px~1023px): h1 중앙 정렬 - 기본 규칙보다 뒤에 두어 우선 적용 */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .left-section h1 {
+        width: 100%;
+        max-width: 525px;
+        height: auto;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
       }
+    }
+
+    /* 모바일(767px 이하): h1에 Text Preset 2 적용 + 텍스트 중앙 정렬 */
+    @media (max-width: 767px) {
+      .left-section {
+        text-align: center;
+      }
+
+      .left-section h1 {
+        width: 100%;
+        height: auto;
+        font-size: 28px;
+        line-height: 130%;
+        letter-spacing: -0.3px;
+        font-weight: 700;
+        text-align: center;
+      }
+    }
+
+    /* 왼쪽 섹션 본문 스타일 (Text Preset 3) - 모든 화면 적용 */
+    .left-section p {
+      font-size: 16px;
+      line-height: 165%;
+      letter-spacing: 0px;
+      font-weight: 500;
+      /* Medium */
+      color: #FFFFFF;
     }
 
     /* 오른쪽 섹션: 폼 영역 */
     .right-section {
       /* 모바일에서는 전체 너비 사용 */
       width: 100%;
+    }
+
+    /* 태블릿 화면 (768px ~ 1023px)에서 오른쪽 섹션 중앙 정렬 */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .right-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
     }
 
     /* 데스크탑 화면에서 오른쪽 섹션 스타일 */
@@ -219,13 +275,21 @@
       /* 기본 여백 제거 */
     }
 
+    /* 모바일 화면 (767px 이하)에서 프로모션 배너 너비 */
+    @media (max-width: 767px) {
+      .promo-banner {
+        width: 327px;
+        max-width: 100%;
+      }
+    }
+
     /* 회원가입 폼 컨테이너 */
     .signup-form {
       /* 흰색 배경, 둥근 모서리 */
       background-color: #FFFFFF;
       border-radius: 10px;
-      /* 내부 여백: spacing-400 (32px) */
-      padding: 32px;
+      /* 내부 여백: 상하 32px, 좌우 40px (spacing-500) */
+      padding: 32px 40px;
       /* 입력 필드 간격을 위한 flex */
       display: flex;
       flex-direction: column;
@@ -233,6 +297,15 @@
       /* spacing-300: 입력 필드 사이 24px */
       /* 폼 전체에 그림자 (y축 8px) */
       box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    /* 태블릿 화면 (768px ~ 1023px)에서 회원가입 폼 최대 너비 */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .signup-form {
+        max-width: 540px;
+        margin: 0 auto;
+        /* 최대 너비 적용 시 가운데 정렬 */
+      }
     }
 
     /* 입력 필드 공통 스타일 */
@@ -272,22 +345,25 @@
     /* 제출 버튼 */
     .signup-form button {
       /* 크기 */
-      width: 100%;
+      width: 460px;
+      max-width: 100%;
       height: 56px;
       /* 배경: Green 400 */
       background-color: #38CC8B;
       color: #FFFFFF;
       border: none;
       border-radius: 8px;
-      /* 폰트: Text Preset 4 Bold, 대문자 */
+      /* 안쪽 그림자: y축 -4px, blur 0, 불투명도 9.09% */
+      box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.0909);
+      /* 폰트: Text Preset 4 SemiBold */
       font-family: 'Poppins', sans-serif;
       font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.25px;
+      line-height: 175%;
+      font-weight: 600;
+      /* SemiBold */
+      letter-spacing: 2px;
       text-transform: uppercase;
       cursor: pointer;
-      /* 버튼 위 여백 추가 */
-      margin-top: 8px;
     }
 
     /* 버튼 hover 시: Green 300으로 밝게 */
@@ -299,6 +375,8 @@
     /* 약관 동의 텍스트 */
     .signup-form .terms {
       margin: 0;
+      /* 제출 버튼과 약관 텍스트 사이 갭 8px (form gap 24px 보정) */
+      margin-top: -16px;
       text-align: center;
       /* Text Preset 5 Medium */
       font-size: 11px;
@@ -341,8 +419,8 @@
     <div class="left-section">
       <h1>Learn to code by watching others</h1>
 
-      <p>See how experienced developers solve problems in real-time. Watching scripted tutorials is great,
-        but understanding how developers think is invaluable.</p>
+      <p>See how experienced developers solve problems in real-time.
+        Watching scripted tutorials is great, but understanding how developers think is invaluable.</p>
     </div>
 
     <!-- 오른쪽 섹션: 폼 영역 -->
@@ -354,6 +432,12 @@
       </div>
 
       <!-- 회원가입 폼 -->
+      <!-- 
+        'signup-form' 폼에 좌우 40px 패딩을 추가합니다.
+        Tailwind CSS의 'px-10' 클래스가 좌우(padding-left/right)에 각 40px 패딩을 적용해줍니다.
+        즉, 종이의 좌우 여백을 40px씩 띄운 것처럼 입력 영역이 넓어집니다.
+        어떤 화면에서도 폼이 너무 붙거나 답답해 보이지 않게, 숨통을 틔워주는 여백이라고 생각하면 좋아요!
+      -->
       <form class="signup-form">
         <!-- 이름 입력 -->
         <input type="text" placeholder="First Name" required>
