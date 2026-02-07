@@ -22,17 +22,18 @@
   </script>
 
   <!-- ========== Tailwind 커스텀 컴포넌트 (Components) ========== -->
+  <!-- 디자인 의도: 반복·긴 클래스를 컴포넌트로 묶어 가독성 확보 + 시안 고정값(525/540/460px 등) 한곳에서 관리 -->
   <style type="text/tailwindcss">
     @layer components {
-      /* [의도] 전체 화면 배경 + 1024px 이상에서 데스크톱 배경 이미지로 전환 */
+      /* [디자인 의도] 배경: 모바일 우선 이미지 → 1024px 이상에서 데스크톱 배경으로 전환 (반응형 분기점) */
       .page-body {
         @apply min-h-screen font-sans box-border;
         @apply bg-[hsl(0,100%,74%)] bg-cover bg-center bg-no-repeat;
         @apply bg-[url('images/bg-intro-mobile.png')] min-[1024px]:bg-[url('images/bg-intro-desktop.png')];
       }
 
-      /* [의도] 콘텐츠 전체를 담는 래퍼: 모바일 패딩 → 태블릿 세로 배치·중앙 정렬 → 데스크톱 상하 여백만 */
-      /* [주의] max-w-[1113px], py-[121px] 등은 디자인 시안 고정값 */
+      /* [디자인 의도] 메인 래퍼: 768~1065px는 세로 한 줄 배치로 525+540이 안 들어가는 구간 넘침 방지, 1066px+ 에서만 좌우 나란히 */
+      /* [주의] max-w-[1113px], py-[121px] 디자인 시안 고정값 — 변경 시 레이아웃 깨짐 가능 */
       .main-container {
         @apply w-full max-w-[1113px] min-h-screen mx-auto box-border;
         @apply flex flex-wrap items-center p-6;
@@ -40,15 +41,15 @@
         @apply min-[1066px]:py-[121px] min-[1066px]:px-0;
       }
 
-      /* [의도] 왼쪽 소개 블록: 태블릿에서 max 525px·중앙, 데스크톱에서 525px 고정 */
-      /* [주의] 525px 는 디자인 시안 고정값 */
+      /* [디자인 의도] Intro 영역: 태블릿에서 max 525px·중앙 정렬, 데스크톱에서 525px 고정 너비 */
+      /* [주의] 525px 디자인 시안 고정값 */
       .intro-section {
         @apply w-full max-[767px]:text-center;
         @apply min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[525px] min-[768px]:max-[1065px]:min-w-0 min-[768px]:max-[1065px]:text-center min-[768px]:max-[1065px]:mb-16;
         @apply min-[1066px]:w-[525px];
       }
 
-      /* [의도] 데스크톱: 큰 제목(50px) / 모바일: 작은 제목(28px) + 중앙 정렬 / 태블릿: 중앙 정렬 유지 */
+      /* [디자인 의도] 헤드라인: 뷰포트별 폰트 크기·정렬 분기 (데스크 50px / 모바일 28px, 태블릿 중앙) */
       /* [주의] w-[525px], h-[131px], text-[50px] 등 디자인 시안 고정값 */
       .intro-title {
         @apply w-[525px] h-[131px] text-[50px] leading-[110%] tracking-[-0.5px] font-bold text-white text-left mb-4;
@@ -56,12 +57,13 @@
         @apply min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[525px] min-[768px]:max-[1065px]:h-auto min-[768px]:max-[1065px]:text-center min-[768px]:max-[1065px]:mx-auto;
       }
 
+      /* [디자인 의도] 소개 본문 텍스트 (Text Preset 3) */
       .intro-text {
         @apply text-[16px] leading-[165%] tracking-[0px] font-medium text-white;
       }
 
-      /* [의도] 오른쪽 폼 블록: 태블릿 max 540px·세로 정렬, 데스크톱 540px 고정·우측 정렬 */
-      /* [주의] 540px 는 디자인 시안 고정값 */
+      /* [디자인 의도] Sign up 영역: 태블릿 max 540px·세로 정렬, 데스크톱 540px 고정·우측 정렬 */
+      /* [주의] 540px 디자인 시안 고정값 */
       .signup-section {
         @apply w-full;
         @apply max-[767px]:min-w-0 max-[767px]:box-border;
@@ -69,7 +71,7 @@
         @apply min-[1066px]:w-[540px] min-[1066px]:ml-auto;
       }
 
-      /* [의도] 보라색 CTA 배너: 데스크 540×60 / 모바일 100% 너비·88px 높이·좌우 66.5px 패딩 */
+      /* [디자인 의도] 프로모션 배너: 데스크 540×60 / 모바일 100% 너비·88px 높이·좌우 66.5px 패딩 (시안 고정값) */
       /* [주의] w-[540px], h-[60px], px-[66.5px], py-[18px], h-[88px] 디자인 시안 고정값 */
       .promo-banner {
         @apply w-[540px] h-[60px] bg-[#5E54A4] text-white rounded-[10px] mb-6 flex items-center justify-center text-center;
@@ -78,7 +80,7 @@
         @apply max-[767px]:w-full max-[767px]:min-w-0 max-[767px]:box-border max-[767px]:px-[66.5px] max-[767px]:py-[18px] max-[767px]:h-[88px];
       }
 
-      /* [의도] 흰색 폼 카드: 데스크 패딩 32/40 → 모바일 24 통일, 태블릿 너비 100%·중앙 */
+      /* [디자인 의도] 폼 카드 컨테이너: 데스크 패딩 32/40px → 모바일 24px 통일, 태블릿 너비 100%·중앙 */
       .signup-form {
         @apply bg-white rounded-[10px] py-8 px-10 flex flex-col gap-6 box-border;
         @apply shadow-[0_8px_0_rgba(0,0,0,0.1)];
@@ -86,7 +88,7 @@
         @apply min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:min-w-0 min-[768px]:max-[1065px]:max-w-full min-[768px]:max-[1065px]:mx-auto;
       }
 
-      /* [의도] 입력 필드: 데스크 460×56, 포커스 시 보라 테두리, 반응형에서 100% 또는 max 460px */
+      /* [디자인 의도] 입력 필드: 데스크 460×56, 포커스 시 보라 테두리, 반응형에서 100% 또는 max 460px */
       /* [주의] w-[460px], h-[56px], 색상값 디자인 시안 고정값 */
       .input-field {
         @apply w-[460px] max-w-full h-[56px] box-border rounded-lg py-4 px-8 font-sans text-[15px] font-normal tracking-[0.25px];
@@ -96,7 +98,7 @@
         @apply min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[460px];
       }
 
-      /* [의도] 초록 CTA 버튼 + 내부 그림자, hover 시 밝은 초록, 반응형 너비는 input과 동일 */
+      /* [디자인 의도] CTA 버튼: 초록 배경 + 내부 그림자, hover 시 밝은 초록, 반응형 너비는 input과 동일 */
       /* [주의] w-[460px], h-[56px], 색상·그림자 디자인 시안 고정값 */
       .btn-primary {
         @apply w-[460px] max-w-full h-[56px] rounded-lg border-0 font-sans text-[15px] leading-[175%] font-semibold tracking-[2px] uppercase cursor-pointer box-border;
@@ -106,13 +108,49 @@
         @apply min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[460px];
       }
 
-      /* [의도] 제출 버튼과 약관 사이 간격 보정(-16px) + 작은 회색 텍스트 */
+      /* [디자인 의도] 약관 문구: 버튼과의 시각적 간격 보정(-16px) + 작은 회색 텍스트 */
       .form-terms {
         @apply m-0 mt-[-16px] text-center text-[11px] leading-[190%] font-medium text-[#BAB7D4];
       }
 
       .form-terms-link {
         @apply text-[#FF7979] no-underline font-semibold border-b border-[#FF7979] hover:underline;
+      }
+
+      /* ----- 에러 상태 (Error State): JS가 .field-group에 .error만 추가/제거하면 테두리·아이콘·메시지 일괄 전환 ----- */
+      /* [디자인 의도] 필드 래퍼: 에러 아이콘을 입력창 오른쪽 안쪽에 겹치려면 부모가 relative 필요 */
+      .field-group {
+        @apply flex flex-col;
+      }
+
+      .input-wrapper {
+        @apply relative w-[460px] max-w-full;
+        @apply max-[767px]:w-full;
+        @apply min-[768px]:max-[1065px]:w-full min-[768px]:max-[1065px]:max-w-[460px];
+      }
+
+      /* [에러 상태] 유효성 실패 시 입력창 빨간 테두리, 포커스 시에도 빨간 유지 (시안 준수) */
+      .field-group.error .input-field {
+        @apply border-2 border-[#FF7979];
+      }
+      .field-group.error .input-field:focus {
+        @apply border-[#FF7979] outline-none;
+      }
+
+      /* [에러 상태] 입력창 오른쪽 32px 여백 위치에 빨간 느낌표 아이콘 (에러 시에만 표시) */
+      .error-icon {
+        @apply absolute right-8 top-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none hidden;
+      }
+      .field-group.error .error-icon {
+        @apply block;
+      }
+
+      /* [에러 상태] 입력창 바로 아래 빨간 기울임꼴 메시지, 오른쪽 정렬, 위쪽 마진 8px (시안 고정) */
+      .error-msg {
+        @apply hidden text-right text-[#FF7979] italic font-normal text-[11px] leading-tight mt-2;
+      }
+      .field-group.error .error-msg {
+        @apply block;
       }
     }
   </style>
@@ -142,12 +180,37 @@
         <p class="m-0"><strong>Try it free 7 days</strong> then $20/mo. thereafter</p>
       </aside>
 
-      <!-- 회원가입 폼 카드 -->
-      <form class="signup-form" action="#" method="post">
-        <input type="text" placeholder="First Name" required aria-label="First Name" class="input-field">
-        <input type="text" placeholder="Last Name" required aria-label="Last Name" class="input-field">
-        <input type="email" placeholder="Email Address" required aria-label="Email Address" class="input-field">
-        <input type="password" placeholder="Password" required aria-label="Password" class="input-field">
+      <!-- 회원가입 폼 카드: script.js가 유효성 검사 후 .field-group에 .error 추가 시 테두리·아이콘·메시지 노출 -->
+      <form class="signup-form" id="signupForm" action="#" method="post" novalidate>
+        <!-- 필드 그룹: data-error-empty = 비어 있을 때, data-error-format = 이메일 형식 오류 시 (email만 해당) -->
+        <div class="field-group" data-error-empty="First Name cannot be empty">
+          <div class="input-wrapper">
+            <input type="text" name="firstName" placeholder="First Name" aria-label="First Name" class="input-field" autocomplete="given-name">
+            <img src="images/icon-error.svg" alt="" class="error-icon" aria-hidden="true">
+          </div>
+          <span class="error-msg" role="alert"></span>
+        </div>
+        <div class="field-group" data-error-empty="Last Name cannot be empty">
+          <div class="input-wrapper">
+            <input type="text" name="lastName" placeholder="Last Name" aria-label="Last Name" class="input-field" autocomplete="family-name">
+            <img src="images/icon-error.svg" alt="" class="error-icon" aria-hidden="true">
+          </div>
+          <span class="error-msg" role="alert"></span>
+        </div>
+        <div class="field-group" data-error-empty="Email Address cannot be empty" data-error-format="Looks like this is not an email">
+          <div class="input-wrapper">
+            <input type="email" name="email" placeholder="Email Address" aria-label="Email Address" class="input-field" autocomplete="email">
+            <img src="images/icon-error.svg" alt="" class="error-icon" aria-hidden="true">
+          </div>
+          <span class="error-msg" role="alert"></span>
+        </div>
+        <div class="field-group" data-error-empty="Password cannot be empty">
+          <div class="input-wrapper">
+            <input type="password" name="password" placeholder="Password" aria-label="Password" class="input-field" autocomplete="new-password">
+            <img src="images/icon-error.svg" alt="" class="error-icon" aria-hidden="true">
+          </div>
+          <span class="error-msg" role="alert"></span>
+        </div>
         <button type="submit" class="btn-primary">Claim your free trial</button>
         <p class="form-terms">
           By clicking the button, you are agreeing to our
@@ -160,6 +223,9 @@
 
   </main>
   <!-- ========== 메인 컨테이너 끝 ========== -->
+
+  <!-- 폼 유효성 검사: 제출 시 빈값·이메일 형식 검사 후 .error 토글로 에러 UI 제어 -->
+  <script src="script.js"></script>
 
 </body>
 
