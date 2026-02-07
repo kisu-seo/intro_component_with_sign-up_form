@@ -13,7 +13,7 @@
 
 ### Screenshot
 
-![Project Screenshot](./preview.jpg)
+![Project Screenshot](./intro_component_with_sign-up_form.png)
 
 ### Links
 
